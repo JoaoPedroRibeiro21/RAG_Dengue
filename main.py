@@ -99,14 +99,14 @@ async def start():
 async def on_message(message: cl.Message):
     user_input = (message.content or "").strip()
     if not user_input:
-        await cl.Message("⚠️ Digite uma mensagem.").send()
+        await cl.Message("⚠Digite uma mensagem.").send()
         return
 
     print(f"\n🔍 Processando mensagem: {user_input}")
     
     session_id = cl.user_session.get("id") or "default"
     try:
-        print("🔄 Executando pipeline principal com streaming...")
+        print("Executando pipeline principal com streaming...")
         
         
         resp = await runnable_with_history.ainvoke(
@@ -124,21 +124,21 @@ async def on_message(message: cl.Message):
         await response_msg.send()
         await simulate_streaming(final_text, response_msg, chunk_size=3)
         
-        print("✅ Resposta enviada com sucesso")
+        print("Resposta enviada com sucesso")
 
     except Exception as e:
-        print(f"❌ Erro no pipeline principal: {e}")
+        print(f"Erro no pipeline principal: {e}")
         error_msg = cl.Message(content="")
         await error_msg.send()
         
         error_text = (
-            f"❌ **Erro ao processar sua mensagem**\n\n"
+            f"**Erro ao processar sua mensagem**\n\n"
             f"**Detalhes técnicos**: `{str(e)}`\n\n"
-            f"💡 **Sugestões**:\n"
+            f"**Sugestões**:\n"
             f"• Tente reformular sua pergunta\n"
             f"• Seja mais específico sobre o que deseja saber\n"
             f"• Para dúvidas sobre dengue, use termos como: sintomas, prevenção, tratamento\n\n"
-            f"🔄 Tente novamente em alguns instantes."
+            f"Tente novamente em alguns instantes."
         )
         
         await simulate_streaming(error_text, error_msg, chunk_size=2)
@@ -150,14 +150,14 @@ async def on_resume():
     await resume_msg.send()
     
     resume_text = (
-        "🔄 **Chat retomado!**\n\n"
+        "**Chat retomado!**\n\n"
         "Continue fazendo suas perguntas sobre dengue baseadas no conteúdo do PDF.\n"
-        "⚡ **Streaming ativo** - respostas aparecem em tempo real!"
+        "**Streaming ativo** - respostas aparecem em tempo real!"
     )
     
     await simulate_streaming(resume_text, resume_msg, chunk_size=4)
 
 if __name__ == "__main__":
-    print("🚀 Iniciando o assistente de dengue com STREAMING...")
-    print("📚 Sistema focado em análise de texto (PDF)")
-    print("🔗 Execute: chainlit run main.py")
+    print("Iniciando o assistente de dengue com STREAMING...")
+    print("Sistema focado em análise de texto (PDF)")
+    print("Execute: chainlit run main.py")
